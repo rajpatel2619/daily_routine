@@ -15,13 +15,15 @@ class MyApp extends StatelessWidget {
       title: 'Daily Expanses',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        errorColor: Colors.red,
         accentColor: Colors.amber,
         fontFamily: 'OpenSans',
         textTheme: ThemeData.light().textTheme.copyWith(
             title: TextStyle(
                 fontFamily: 'Quicksand',
                 fontWeight: FontWeight.bold,
-                fontSize: 17)),
+                fontSize: 17),
+            button: TextStyle(color: Colors.white)),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
               title: TextStyle(
@@ -56,11 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime chosenDate) {
     final newTx = Transaction(
         title: title,
         amount: amount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
     setState(() {
       _userTransactions.add(newTx);
@@ -79,6 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) {
+        return element.id == id;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,29 +101,32 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: (_userTransactions.isEmpty)
-          ? Center(child: Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  'No Transactions ( ^ _ ^ ) ',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColorDark, fontSize: 25),
-                ),
-                // SizedBox(
-                //   height: 70,
-                // ),
-                Image(image: AssetImage("assets/images/money.png")),
-              ],
-            ),)
+          ? Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    'No Transactions ( ^ _ ^ ) ',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColorDark,
+                        fontSize: 25),
+                  ),
+                  // SizedBox(
+                  //   height: 70,
+                  // ),
+                  Image(image: AssetImage("assets/images/money.png")),
+                ],
+              ),
+            )
           : SingleChildScrollView(
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Chart(_recentTransactions),
-                  TransactionList(_userTransactions)
+                  TransactionList(_userTransactions,_deleteTransaction)
                 ],
               ),
             ),
