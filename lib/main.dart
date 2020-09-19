@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Daily Expanses',
+      title: 'Weekly Expanses',
       theme: ThemeData(
         primarySwatch: Colors.purple,
         errorColor: Colors.red,
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daily Expanses'),
+        title: Text('Weekly Expanses'),
         actions: [
           IconButton(
               icon: Icon(Icons.add),
