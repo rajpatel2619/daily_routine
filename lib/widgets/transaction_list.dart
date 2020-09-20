@@ -8,9 +8,7 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions,this.deleteTx);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 440,
-      child: ListView.builder(
+    return ListView.builder(
         itemBuilder: (ctx, index) {
           return Card(
             elevation: 1,
@@ -39,7 +37,7 @@ class TransactionList extends StatelessWidget {
           );
         },
         itemCount: transactions.length,
-      ),
+      
     );
   }
 }
